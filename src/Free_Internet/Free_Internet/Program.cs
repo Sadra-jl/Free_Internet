@@ -123,19 +123,11 @@ try
 
             string pathRepoDir = configManager.UnzipRepository(repositoryName);
             string dataFile = ConfigManager.GetDataFile(pathRepoDir, fileName);
-            
-            List<IConfig> baseConfigs = new();
 
-            baseConfigs.AddRange(configManager.GetLinkConfig(dataFile, new Vless()));
-            baseConfigs.AddRange(configManager.GetLinkConfig(dataFile, new Vmess()));
-            baseConfigs.AddRange(configManager.GetLinkConfig(dataFile, new Warp()));
-            baseConfigs.AddRange(configManager.GetLinkConfig(dataFile, new Tuic()));
-            baseConfigs.AddRange(configManager.GetLinkConfig(dataFile, new Trojan()));
-            baseConfigs.AddRange(configManager.GetLinkConfig(dataFile, new Ss()));
-            baseConfigs.AddRange(configManager.GetLinkConfig(dataFile, new ShadowSocks()));
-            
-            baseConfigs = baseConfigs.OrderBy(x => Guid.NewGuid()).ToList();
 
+            IEnumerable<Config> baseConfigs = configManager.GetConfigLinks(dataFile)
+                .OrderBy(x => Guid.NewGuid());
+            
             message.Clear();
             //todo: maybe a more suitable name?
             foreach (var vle in baseConfigs)
